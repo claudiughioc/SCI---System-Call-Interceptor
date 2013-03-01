@@ -1,0 +1,829 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0043)http://ocw.cs.pub.ro/courses/so2/teme/tema1 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>
+    Tema 1 - Interceptare apeluri de sistem    [CS Open CourseWare]
+  </title>
+
+  <meta name="generator" content="DokuWiki">
+<meta name="robots" content="index,follow">
+<meta name="date" content="2013-02-24T12:13:14+0200">
+<meta name="keywords" content="so2,teme,tema1">
+<link rel="search" type="application/opensearchdescription+xml" href="http://ocw.cs.pub.ro/courses/lib/exe/opensearch.php" title="CS Open CourseWare">
+<link rel="start" href="http://ocw.cs.pub.ro/courses/">
+<link rel="alternate" type="application/rss+xml" title="Recent Changes" href="http://ocw.cs.pub.ro/courses/feed.php">
+<link rel="alternate" type="application/rss+xml" title="Current Namespace" href="http://ocw.cs.pub.ro/courses/feed.php?mode=list&ns=so2:teme">
+<link rel="alternate" type="text/html" title="Plain HTML" href="http://ocw.cs.pub.ro/courses/_export/xhtml/so2/teme/tema1">
+<link rel="canonical" href="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare].html">
+<link rel="stylesheet" type="text/css" href="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/css.php">
+<script type="text/javascript">/*<![CDATA[*/var NS='so2:teme';var JSINFO = {"id":"so2:teme:tema1","namespace":"so2:teme"};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/js.php"></script>
+<script type="text/javascript">/*<![CDATA[*/
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		  
+/*!]]>*/</script><script src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">/*<![CDATA[*/
+var pageTracker = _gat._getTracker("UA-38383934-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+		  
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/menu.js"></script>
+<script type="text/javascript" charset="utf-8" src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/indexmenu.js"></script>
+<script type="text/javascript" charset="utf-8">/*<![CDATA[*/var indexmenu_ID='so2/teme/tema1'
+/*!]]>*/</script>
+
+  <link rel="shortcut icon" href="http://ocw.cs.pub.ro/courses/lib/tpl/arctic/images/favicon.ico">
+
+  
+<script src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/nojsindex.js" type="text/javascript" charset="utf-8"></script></head>
+<body>
+<div id="wrapper" class="show">
+  <div class="dokuwiki">
+
+    
+    <div class="stylehead">
+      <div class="header">
+        <div class="pagename">
+          <a href="http://ocw.cs.pub.ro/courses/so2/"><img height="70" src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/sigla_so2.png"> </a>        </div>
+        <div class="logo">
+          <a style="color: #AAA !important;" href="http://ocw.cs.pub.ro/courses/systems/"><img height="70" src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/systems.png" name="dokuwiki__top"></a>        </div>
+      </div>
+    
+       
+      <div class="breadcrumbs">
+              </div>
+      
+            </div>
+
+                  <div class="bar" id="bar__top">
+        <div class="bar-left">
+                  </div>
+        <div class="bar-right">
+          <a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1?do=login&sectok=6528de01c93b776ffa60d34166659c86" class="action login" rel="nofollow" title="Login">Login</a>        </div>
+    </div>
+        
+    
+    
+    
+              <div class="left_page">
+          
+<h1 class="sectionedit1" id="tema_1_-_interceptare_apeluri_de_sistem">Tema 1 - Interceptare apeluri de sistem</h1>
+<div class="level1">
+
+<p>
+Termen de predare: <strong>Joi, 21 Martie 2013, ora 23:00 </strong>
+</p>
+
+</div>
+
+<h2 class="sectionedit2" id="scopul_temei">Scopul temei</h2>
+<div class="level2">
+
+<p>
+Monitorizarea apelurilor de sistem venite din partea proceselor, prin crearea unui interceptor de apeluri de sistem în kernel.
+</p>
+
+</div>
+
+<h2 class="sectionedit3" id="enunt">Enunț</h2>
+<div class="level2">
+
+<p>
+Să se scrie un modul de kernel <strong>sci</strong> care să intercepteze, la cerere, apeluri de sistem. Pentru apelurile de sistem interceptate, modulul trebuie să poată monitoriza anumite procese ce fac apeluri și să le jurnalizeze în syslog.
+</p>
+
+<p>
+La inserare, modulul va rezerva un apel de sistem nefolosit (<code>MY_SYSCALL_NO</code>) și va aștepta următoarele instrucțiuni (comenzi) din userspace prin respectivul apel:
+</p>
+<ul>
+<li class="level1"><div class="li"><code>REQUEST_SYSCALL_INTERCEPT</code> pentru a intercepta un apel de sistem </div>
+</li>
+<li class="level1"><div class="li"><code>REQUEST_SYSCALL_RELEASE</code> pentru a renunța la interceptarea unui apel de sistem </div>
+</li>
+<li class="level1"><div class="li"><code>REQUEST_START_MONITOR</code> pentru a porni monitorizarea unui apel de sistem (ce a fost în prealabil interceptat) pentru un anumit proces </div>
+</li>
+<li class="level1"><div class="li"><code>REQUEST_STOP_MONITOR</code> pentru a opri monitorizarea unui apel de sistem (ce a fost în prealabil interceptat) pentru un anumit proces </div>
+</li>
+</ul>
+
+<p>
+Rutina de tratare a apelului rezervat va avea urmatoarea semnătură: 
+</p>
+<pre class="code">long my_syscall(int cmd, int syscall, int pid);</pre>
+
+<p>
+unde:
+</p>
+<ul>
+<li class="level1"><div class="li"><strong>cmd</strong> este comanda așteptată din userspace</div>
+</li>
+<li class="level1"><div class="li"><strong>syscall</strong> este numărul apelului de sistem la care se referă operația</div>
+</li>
+<li class="level1"><div class="li"><strong>pid</strong> este PID-ul procesului pentru care se dorește pornirea sau oprirea monitorizării. PID-ul este necesar doar pentru operațiile de monitorizare și va fi ignorat pentru operațiile de interceptare.</div>
+</li>
+</ul>
+
+<p>
+Interceptarea unui apel de sistem se referă la faptul că modulul va înlocui intrarea din tabela de apeluri de sistem, astfel încât toate apelurile ulterioare să “trecă prin modul” (și să ajungă în cele din urmă la apelul de sistem original). 
+</p>
+
+<p>
+Monitorizarea se refera la faptul că modulul va loga în userspace informații despre proces și apel de sistem: numărul apelului de sistem, parametrii apelului de sistem, codul de eroare întors de apelul de sistem (cel original), PID-ul procesului. 
+</p>
+
+<p>
+Monitorizarea se poate face pentru un proces sau pentru toate procesele (caz în care <strong>pid</strong> este 0).
+</p>
+
+<p>
+Înainte de a efectua operațiile cerute din userspace, modulul va trebui să facă verificări de consistență, drepturi, stare și să semnaleze, daca este cazul, condițiile de eroare:
+</p>
+<ul>
+<li class="level1"><div class="li">verificări asupra drepturilor [eroare: permisiune/access refuzat]:</div>
+</li>
+<li class="level1"><div class="li"> doar procesele ce aparțin utilizatorului privilegiat vor putea intercepta sau deintercepta un apel de sistem</div>
+</li>
+<li class="level1"><div class="li"> doar procesele ce aparțin utilizatorului privilegiat pot porni sau opri monitorizarea unui apel de sistem pentru toate PID-urile</div>
+</li>
+<li class="level1"><div class="li"> procesele ce aparțin de un utilizator neprivilegiat vor putea opri sau porni monitorizarea unui apel de sistem doar pentru procesele sale</div>
+</li>
+<li class="level1"><div class="li">verificări de consistență [eroare: parametru nevalid]:</div>
+</li>
+<li class="level1"><div class="li"> numărul apelului de sistem (se consideră nevalid apelul <code>MY_SYSCALL_NO</code> sau <code>__NR_exit_group</code>)</div>
+</li>
+<li class="level1"><div class="li"> PID-ul procesului</div>
+</li>
+<li class="level1"><div class="li"> un apel de sistem ce nu a fost interceptat nu poate fi deinterceptat</div>
+</li>
+<li class="level1"><div class="li"> nu se poate monitoriza un apel de sistem care nu a fost interceptat</div>
+</li>
+<li class="level1"><div class="li"> monitorizarea pentru un proces/apel de sistem nu poate fi oprită dacă, în prealabil, nu a fost pornită</div>
+</li>
+<li class="level1"><div class="li">verificări de stare [eroare: ocupat]:</div>
+</li>
+<li class="level1"><div class="li"> un apel de sistem deja interceptat nu poate fi interceptat din nou</div>
+</li>
+<li class="level1"><div class="li"> monitorizarea nu poate fi pornită de două ori pentru același apel de sistem și pid</div>
+</li>
+<li class="level1"><div class="li">alte verificări:</div>
+</li>
+<li class="level1"><div class="li"> modulul trebuie să verifice codul de eroare al funcțiilor apelate și, în cazul în care nu poate continua, să transmită utilizatorului cauza (exemplu: nu se mai poate aloca memorie)</div>
+</li>
+<li class="level1"><div class="li">cazuri speciale:</div>
+</li>
+<li class="level1"><div class="li"> modulul trebuie să oprească monitorizarea pentru procesele care s-au terminat</div>
+</li>
+</ul>
+
+<p>
+Se impune folosirea unei <strong>liste pentru menținerea informațiilor despre procesele monitorizate</strong>. Folosirea unui vector de dimensiune fixă se consideră neadecvată pentru că timpul de căutare va fi similar, complexitatea implementării va fi similară, vectorul va avea un număr limitat de intrări. Se recomandă folosirea structurilor existente în kernel.
+</p>
+
+<p>
+Pentru că numărul de apeluri de sistem este în general mic (250-300 apeluri de sistem), dar și pentru o latență cât mai mica introdusă de interceptare, se recomandă ca <strong>informațiile despre apelurile de sistem interceptate să se țină într-un vector</strong>.
+</p>
+
+<p>
+Pentru interceptarea de apeluri de sistem revedeți informațiile prezentate în <a href="http://ocw.cs.pub.ro/courses/cursuri/curs02" class="wikilink2" title="cursuri:curs02" rel="nofollow">Cursul 2</a>.
+</p>
+
+</div>
+
+<h2 class="sectionedit4" id="precizari_linux">Precizări Linux</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li">tabela cu apelurile de sistem este exportată pentru module doar în 2.4; pentru 2.6 va trebui sa exportați manual această tabelă, adăugând în fișierul <code>arch/x86/kernel/i386_ksyms_32.c</code> următoarele linii:</div>
+</li>
+</ul>
+<pre class="code">extern void* sys_call_table[];
+EXPORT_SYMBOL(sys_call_table);</pre>
+
+<p>
+De asemenea, va trebuie să modificați <code>arch/x86/kernel/entry_32.S</code> pentru a muta tabela din segmentul <code>.rodata</code> în segmentul <code>.data</code>:
+</p>
+<pre class="code">.section .data,"a"
+#include "syscall_table_32.S"</pre>
+
+<p>
+În plus, pentru că macro-ul <code>NR_syscalls</code> nu mai este definit în nucleu, va trebui să definiți o variabilă specială care să conțină numărul de apeluri de sistem în <code>arch/x86/kernel/entry_32.S</code>. Nucleul mașinii virtuale definește variabila <code>my_nr_syscalls</code> în acest sens.
+</p>
+<pre class="code">ENTRY(my_nr_syscalls)
+.long    nr_syscalls</pre>
+
+<p>
+De asemenea, trebuie exportată variabila de mai sus în <code>arch/x86/kernel/i386_ksyms_32.c</code>:
+</p>
+<pre class="code">extern long my_nr_syscalls;
+EXPORT_SYMBOL(my_nr_syscalls);</pre>
+
+<p>
+Imaginea de pe site are făcute aceste modificări;
+</p>
+<ul>
+<li class="level1"><div class="li">pentru a folosi în modulul vostru cele două variabile exportate (<code>sys_call_table</code> și <code>my_nr_syscalls</code>) va trebui să le marcați cu extern:</div>
+</li>
+</ul>
+<pre class="code">extern void *sys_call_table[];
+extern long my_nr_syscalls;</pre>
+<ul>
+<li class="level1"><div class="li">cum kernel-ul 2.6 este preemptiv, trebuie să protejați accesul la datele comune; este indicat să folosiți spinlock-uri </div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">se impune să se folosească apelul de sistem 0 pentru <code>my_syscall</code>, care în prezent nu mai este folosit</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">utilizatorul privilegiat va fi <code>root</code> (uid 0)</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">pentru determinarea uid-ului unui proces folosiți câmpul <strong>cred</strong> din structura ce identifică procesul (<code>struct task_struct</code>) </div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li"><code>task_struct</code>-ul procesului curent este dat de macroul <strong>current</strong></div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">pentru <code>task_struct</code>-ul unui proces oarecare folosiți funcțiile <strong>pid_task()</strong> și <strong>find_vpid()</strong></div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">logarea apelului de sistem se va face cu macro-ul <strong>log_syscall</strong> definit în <code>sci_lin.h</code> (fișierul se găsește în arhiva de teste)</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">pentru eliminarea proceselor ce s-au terminat va trebui să interceptați apelul de sistem <strong>exit_group</strong> în funcția de inițializare a modulului; în funcția de cleanup a modulului trebuie deinterceptat apelul de sistem;</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">codurile de eroare ce trebuie întoarse sunt:</div>
+</li>
+<li class="level1"><div class="li"> <code>-EINVAL</code> pentru parametru invalid</div>
+</li>
+<li class="level1"><div class="li"> <code>-EBUSY</code> pentru ocupat</div>
+</li>
+<li class="level1"><div class="li"> <code>-EPERM</code> pentru access refuzat</div>
+</li>
+<li class="level1"><div class="li"> <code>-ENOMEM</code> pentru memorie insuficientă</div>
+</li>
+<li class="level1"><div class="li"> <code>0</code> pentru succes</div>
+</li>
+</ul>
+
+</div>
+
+<h2 class="sectionedit5" id="precizari_windows">Precizări Windows</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li">datorită faptului că accesul la tabelele de apeluri de sistem este dependent de versiunea/build-ul sistemului de operare, tema trebuie rezolvată pentru mașina virtuală de pe site; este foarte probabil ca funcțiile helper puse la dispoziție în <code>sci_win.h</code> (fișierul se găsește în arhiva de teste) să nu funcționeze pe alte versiuni</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">tabelele de apeluri de sistem pot fi accesate din descriptorii asociați, definiți de </div>
+</li>
+</ul>
+<pre class="code">struct std KeServiceDescriptorTable[2];
+struct std *KeServiceDescriptorTableShadow;</pre>
+
+<p>
+structura <code>std</code> este definită în <code>sci_win.h</code>
+</p>
+<ul>
+<li class="level1"><div class="li">la inițializarea modului, va trebui să chemați funcția <strong>get_shadow()</strong> care va inițializa descriptorul pentru tabela shadow; asta pentru că tabela shadow nu este exportată de către kernel</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">pentru că nu există apeluri de sistem nefolosite în Windows, va trebui să înlocuiți tabela de apeluri de sistem cu una nouă, în care să adaugați apelul de sistem propriu; atenție, trebuie să înlocuiți tabelele de apeluri de sistem atât în descriptorul principal cât și în shadow</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">numărul apelului de sistem <strong>my_syscall</strong> a fost definit în <code>sci_win.h</code> la <strong>MY_SYSCALL_NO</strong>; puteți presupune că această valoare este întotdeauna mai mare decât numărul de apeluri de sistem prezente</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">trebuie tratate doar apelurile de sistem din tabela 0</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">pentru determinarea utilizatorului unui process folosiți funcțiile <strong>GetUserOf(pid)</strong> și <strong>GetCurrentUser</strong>, funcții definite în <code>sci_win.h</code>; pentru a verifica dacă doi utilizatori sunt identici folosiți funcția <strong>CheckUsers</strong></div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">utilizatorul privilegiat se consideră utilizatorul cu dreptul de încărcat / scos module din kernel; puteți verifica dacă procesul curent aparține de un utilizator privilegiat cu funcția <strong>UserAdmin</strong>, definită în <code>sci_win.h</code></div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">logarea apelului de sistem se va face prin logarea de pachete <code>struct packet_log</code> definite în <code>sci_win.h</code>, pachete ce vor fi încapsulate în câmpul <strong>DumpData</strong> al unei intrări de log (vezi <strong>IoWriteErrorLogEntry</strong>) cu codul de eroare 0</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">pentru că W2K, WXP, W2k3 sunt preemtive în kernel, trebui să folosiți spinlock-uri pentru a vă proteja de race-uri; folosiți pe cât posibil funcții <strong>Interlocked* </strong></div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">de la XP se marchează tabela de apeluri de sistem ca read-only; folosiți macrourile <strong>WPOFF</strong> și <strong>WPON</strong> (definite în <code>sci_win.h</code>) pentru a opri, respectiv porni protecția la scriere</div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">pentru eliminarea proceselor ce s-au terminat din structurile folosite vedeți <strong>PsSetCreateProcessNotifyRoutine</strong></div>
+</li>
+</ul>
+<ul>
+<li class="level1"><div class="li">codurile de eroare ce trebuie întoarse sunt:</div>
+</li>
+<li class="level1"><div class="li"> <code>STATUS_INVALID_PARAMETER</code> pentru parametru invalid</div>
+</li>
+<li class="level1"><div class="li"> <code>STATUS_DEVICE_BUSY</code> pentru ocupat</div>
+</li>
+<li class="level1"><div class="li"> <code>STATUS_ACCESS_DENIED</code> pentru access refuzat</div>
+</li>
+<li class="level1"><div class="li"> <code>STATUS_NO_MEMORY</code> pentru memorie insuficientă</div>
+</li>
+<li class="level1"><div class="li"> <code>STATUS_SUCCESS</code> pentru succes</div>
+</li>
+</ul>
+
+</div>
+
+<h3 class="sectionedit6" id="schita_pentru_interceptarea_apelurilor_de_sistem_in_windows">Schiță pentru interceptarea apelurilor de sistem în Windows</h3>
+<div class="level3">
+<pre class="code c">NTSTATUS <span class="br0">(</span><span class="sy0">*</span>f<span class="br0">)</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw4">void</span> intercept<span class="br0">(</span><span class="kw4">int</span> syscall<span class="br0">)</span>
+<span class="br0">{</span>
+    <span class="kw4">int</span> syscall_table<span class="sy0">,</span> syscall_index<span class="sy0">;</span>
+&nbsp;
+    syscall_table <span class="sy0">=</span> syscall <span class="sy0">&gt;&gt;</span> <span class="nu0">12</span><span class="sy0">;</span>
+    syscall_index <span class="sy0">=</span> syscall <span class="sy0">&amp;</span> <span class="nu12">0x0000FFF</span><span class="sy0">;</span>
+    f <span class="sy0">=</span> KeServiceDescriptorTable<span class="br0">[</span>syscall_table<span class="br0">]</span>.<span class="me1">st</span><span class="br0">[</span>syscall_index<span class="br0">]</span><span class="sy0">;</span>
+&nbsp;
+    <span class="coMULTI">/* save service descriptor table entry to f */</span>
+&nbsp;
+    KeServiceDescriptorTable<span class="br0">[</span>syscall_table<span class="br0">]</span>.<span class="me1">st</span><span class="br0">[</span>syscall_index<span class="br0">]</span> <span class="sy0">=</span> interceptor<span class="sy0">;</span>
+    KeServiceDescriptorTableShadow<span class="br0">[</span>syscall_table<span class="br0">]</span>.<span class="me1">st</span><span class="br0">[</span>syscall_index<span class="br0">]</span> <span class="sy0">=</span> interceptor<span class="sy0">;</span>
+<span class="br0">}</span>
+&nbsp;
+NTSTATUS interceptor<span class="br0">(</span><span class="br0">)</span>
+<span class="br0">{</span>
+    <span class="kw4">int</span> syscall<span class="sy0">,</span> param_size<span class="sy0">,</span> syscall_table<span class="sy0">,</span>
+    <span class="kw4">int</span> syscall_index<span class="sy0">,</span> r<span class="sy0">;</span>
+    <span class="kw4">void</span> <span class="sy0">*</span>old_stack<span class="sy0">,</span> <span class="sy0">*</span>new_stack<span class="sy0">;</span>
+&nbsp;
+    _asm mov syscall<span class="sy0">,</span> eax
+&nbsp;
+    syscall_table <span class="sy0">=</span> syscall <span class="sy0">&gt;&gt;</span> <span class="nu0">12</span><span class="sy0">;</span>
+    syscall_index <span class="sy0">=</span> syscall <span class="sy0">&amp;</span> <span class="nu12">0x0000FFF</span><span class="sy0">;</span>
+    param_size <span class="sy0">=</span> KeServiceDescriptorTable<span class="br0">[</span>syscall_table<span class="br0">]</span>.<span class="me1">spt</span><span class="br0">[</span>syscall_index<span class="br0">]</span><span class="sy0">;</span>
+&nbsp;
+    _asm mov old_stack<span class="sy0">,</span> ebp
+    _asm add old_stack<span class="sy0">,</span> <span class="nu0">8</span>
+    _asm sub esp<span class="sy0">,</span> param_size
+    _asm mov new_stack<span class="sy0">,</span> esp
+&nbsp;
+    RtlCopyMemory<span class="br0">(</span>new_stack<span class="sy0">,</span> old_stack<span class="sy0">,</span> param_size<span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+    r <span class="sy0">=</span> f<span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+    DbgPrint<span class="br0">(</span><span class="st0">"syscall %d returns %d<span class="es1">\n</span>"</span><span class="sy0">,</span> syscall<span class="sy0">,</span> r<span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> r<span class="sy0">;</span>
+<span class="br0">}</span></pre>
+
+</div>
+
+<h2 class="sectionedit7" id="testare">Testare</h2>
+<div class="level2">
+
+<p>
+Pentru simplificarea procesului de corectare al temelor, dar și pentru a reduce greșelile temelor trimise, corectarea temelor se va face automat cu ajutorul unor teste publice (<a href="http://elf.cs.pub.ro/so2/res/teme/tema1-checker-lin.zip" class="urlextern" title="http://elf.cs.pub.ro/so2/res/teme/tema1-checker-lin.zip" rel="nofollow">Linux</a>, <a href="http://elf.cs.pub.ro/so2/res/teme/tema1-checker-win.zip" class="urlextern" title="http://elf.cs.pub.ro/so2/res/teme/tema1-checker-win.zip" rel="nofollow">Windows</a>). Testele presupun că numele modului de kernel este denumit <a href="http://ocw.cs.pub.ro/courses/_media/so2/teme/sci" class="media mediafile mf_ wikilink2" title="so2:teme:sci">sci</a>} atât pe Linux cât și pe Windows. 
+</p>
+
+</div>
+
+<h3 class="sectionedit8" id="linux">Linux</h3>
+<div class="level3">
+
+<p>
+Testul se folosește de utilizatorul <code>nobody</code> care ar trebui să existe pe toate sistemele Linux. Din această cauză testul trebuie să fie plasat intr-un director public.
+</p>
+
+</div>
+
+<h3 class="sectionedit9" id="windows">Windows</h3>
+<div class="level3">
+
+<p>
+Utilizatorul cu care veți rula testul trebuie să aibă drepturile “Act as part of the operating system”, “Create a token object” și “Replace a process level token”. Pentru a configura aceste drepturi: Start → Administrative Tools → Local Security Policy → Local Policies → User Rights Assignments. 
+</p>
+
+</div>
+
+<h3 class="sectionedit10" id="depunctari">Depunctări</h3>
+<div class="level3">
+
+<p>
+Depunctările generale pentru teme se găsesc pe pagina de <a href="http://ocw.cs.pub.ro/courses/teme/general" class="wikilink2" title="teme:general" rel="nofollow"> Indicații generale</a>.
+</p>
+
+<p>
+Depunctări pentru probleme constatate în implementarea temei prezente: 
+</p>
+<ul>
+<li class="level1"><div class="li">-0.5 implementare incorecta a cerintelor temei</div>
+</li>
+<li class="level1"><div class="li">-0.2 nu se implementeaza eliminarea proceselor care s-au terminat</div>
+</li>
+<li class="level1"><div class="li">-1.0 nu se folosesc liste in implementare</div>
+</li>
+<li class="level1"><div class="li">-0.2 lipsa sincronizari sau sincronizare incompleta / incorecta</div>
+</li>
+<li class="level1"><div class="li"> - 0.1 lipsa sincronizare accces lista procese</div>
+</li>
+<li class="level1"><div class="li"> - 0.1 lipsa sincronizare vector de apeluri de sistem</div>
+</li>
+<li class="level1"><div class="li">-0.1 utilizare functii la nivele IRQL necorespunzatoare</div>
+</li>
+<li class="level1"><div class="li">-0.0 observatii</div>
+</li>
+<li class="level1"><div class="li">-0.1 pentru fiecare test picat</div>
+</li>
+</ul>
+
+<p>
+În cazuri excepționale (tema trece testele prin nerespectarea cerințelor) și în cazul în care tema nu trece toate testele se poate scădea mai mult decat este menționat mai sus.
+</p>
+
+</div>
+
+<h2 class="sectionedit11" id="intrebari">Întrebări</h2>
+<div class="level2">
+
+<p>
+Pentru întrebări legate de temă puteți consulta <a href="http://news.gmane.org/gmane.education.region.romania.operating-systems-design" class="urlextern" title="http://news.gmane.org/gmane.education.region.romania.operating-systems-design" rel="nofollow"> arhivele</a> listei de discuții sau puteți trimite un <a href="mailto:so2@cursuri.cs.pub.ro" class="mail" title="so2@cursuri.cs.pub.ro">e-mail</a> (trebuie să fiți <a href="http://cursuri.cs.pub.ro/cgi-bin/mailman/listinfo/so2" class="urlextern" title="http://cursuri.cs.pub.ro/cgi-bin/mailman/listinfo/so2" rel="nofollow"> înregistrați</a>).
+</p>
+
+</div>
+
+<h3 class="sectionedit12" id="faq">FAQ</h3>
+<div class="level3">
+
+<p>
+Q: Ce ar trebui să se întample în următoarele situații:
+# s-a cerut monitorizarea tuturor proceselor, și apoi se cere demonitorizarea unui proces specific.
+# s-a cerut monitorizarea tuturor proceselor, și apoi se cere monitorizarea unui proces specific.
+# s-a cerut monitorizarea unui proces specific, și apoi se cere demonitorizarea tuturor.
+</p>
+
+<p>
+A: Nu se vor testa asemenea condiții. Este recomandată o abordare simplă, în care pid=0 este considerat la fel ca PID -ul celorlalte procese.
+</p>
+
+<p>
+( <a href="http://cursuri.cs.pub.ro/pipermail/pso/2009-March/003030.html" class="urlextern" title="http://cursuri.cs.pub.ro/pipermail/pso/2009-March/003030.html" rel="nofollow">http://cursuri.cs.pub.ro/pipermail/pso/2009-March/003030.html</a> )
+<br>
+
+<br>
+
+Q: La tema 1 pe windows, structura std este un pic ambigua. Ce inseamna fiecare camp ?
+</p>
+<pre class="code">struct std {\\
+  void **st;    /* service table */\\
+  int *ct;        /* counter table */\\
+  int ls;            /* last service no */\\
+  unsigned char *spt;    /* service parameter table */\\
+};
+</pre>
+
+<p>
+A:
+</p>
+<pre class="code"> void **st;    /* service table */ </pre>
+
+<p>
+Un pointer la service call table [un vector de adrese ale handlerelor
+pentru fiecare system call, indexat dupa id-ul system call-ului]
+</p>
+<pre class="code"> int *ct;        /* counter table */ </pre>
+
+<p>
+Pentru profiling, folosit doar in debug builds. Un pointer la un
+vector de countere, indexat tot dupa id-ul system call-ului, care
+numara de cate ori a fost apelat fiecare system call.
+</p>
+<pre class="code"> int ls;            /* last service no */ </pre>
+
+<p>
+Numarul de intrari din service table / counter table / service parameter table.
+</p>
+<pre class="code"> unsigned char *spt;    /* service parameter table */ </pre>
+
+<p>
+Numarul de bytes ocupati de argumentele fiecarui system call.
+</p>
+
+<p>
+Pentru dispatcherul vostru nu veti folosi decat service table si last
+service no, dar cand creati noua tabela este nevoie sa duplicati si
+service parameter table.
+</p>
+
+<p>
+Pentru mai multe informatii vezi [1], descrierea
+KeAddSystemServiceTable [2] si trap.asm, sursa dispatcherului de
+system calls pentru windows [3].
+</p>
+
+<p>
+[1] <a href="http://www.honeynet.org/node/438" class="urlextern" title="http://www.honeynet.org/node/438" rel="nofollow">http://www.honeynet.org/node/438</a>
+</p>
+
+<p>
+[2] <a href="http://koala.cs.pub.ro/lxr/wrk/ntos/ke/miscc.c#L729" class="urlextern" title="http://koala.cs.pub.ro/lxr/wrk/ntos/ke/miscc.c#L729" rel="nofollow">http://koala.cs.pub.ro/lxr/wrk/ntos/ke/miscc.c#L729</a>
+</p>
+
+<p>
+[3] <a href="http://koala.cs.pub.ro/lxr/wrk/ntos/ke/i386/trap.asm" class="urlextern" title="http://koala.cs.pub.ro/lxr/wrk/ntos/ke/i386/trap.asm" rel="nofollow">http://koala.cs.pub.ro/lxr/wrk/ntos/ke/i386/trap.asm</a>
+</p>
+
+</div>
+
+        </div>
+        <div class="right_sidebar">
+          <form action="http://ocw.cs.pub.ro/courses/start" accept-charset="utf-8" class="search" id="dw__search" method="get"><div class="no"><input type="hidden" name="do" value="search"><input type="text" id="qsearch__in" accesskey="f" name="id" class="edit" title="[F]"><input type="submit" value="Search" class="button" title="Search"><div id="qsearch__out" class="ajax_qsearch JSpopup"></div></div></form>          <div class="toc_sidebar sidebar_box">
+<!-- TOC START -->
+<div id="sb__right__dw__toc">
+<h3 class="toggle">Table of Contents</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#tema_1_-_interceptare_apeluri_de_sistem">Tema 1 - Interceptare apeluri de sistem</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#scopul_temei">Scopul temei</a></div></li>
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#enunt">Enunț</a></div></li>
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#precizari_linux">Precizări Linux</a></div></li>
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#precizari_windows">Precizări Windows</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#schita_pentru_interceptarea_apelurilor_de_sistem_in_windows">Schiță pentru interceptarea apelurilor de sistem în Windows</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#testare">Testare</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#linux">Linux</a></div></li>
+<li class="level3"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#windows">Windows</a></div></li>
+<li class="level3"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#depunctari">Depunctări</a></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#intrebari">Întrebări</a></div>
+<ul class="toc">
+<li class="level3"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#faq">FAQ</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+</div>
+<div class="namespace_sidebar sidebar_box">
+<ul>
+<li class="level1"><div class="li"> <a href="http://ocw.cs.pub.ro/courses/so2/anunturi" class="wikilink1" title="so2:anunturi">Anunțuri</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ocw.cs.pub.ro/courses/so2/need-to-know" class="wikilink1" title="so2:need-to-know">SO2 Need to Know</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ocw.cs.pub.ro/courses/so2/reguli-notare" class="wikilink1" title="so2:reguli-notare">Reguli generale și notare</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ocw.cs.pub.ro/courses/so2/catalog" class="wikilink1" title="so2:catalog">Catalog</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ocw.cs.pub.ro/courses/so2/calendar" class="wikilink1" title="so2:calendar">Calendar</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ocw.cs.pub.ro/courses/so2/karma" class="wikilink1" title="so2:karma">Karma Awards</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ocw.cs.pub.ro/courses/so2/hall" class="wikilink1" title="so2:hall">Hall of SO2</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/impartire-laborator" class="wikilink1" title="so2:laboratoare:impartire-laborator">Împărțire ore laborator</a></div>
+</li>
+</ul>
+
+<h1 class="sectionedit13" id="resurse">Resurse</h1>
+<div class="level1">
+<script type="text/javascript" charset="utf-8">
+<!--//--><![CDATA[//><!--
+indexmenu_nojsqueue.push(new Array('indexmenu_13389006455130fce8966b0',''));
+addInitEvent(function(){indexmenu_loadJs(DOKU_BASE+'lib/plugins/indexmenu/nojsindex.js');});
+//--><!]]>
+</script>
+
+<div id="nojs_indexmenu_13389006455130fce8966b0" class="indexmenu_nojs">
+
+<ul class="idx">
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/resurse/documentatie" class="wikilink1" title="so2:resurse:documentatie">Documentație</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/resurse/feed" class="wikilink1" title="so2:resurse:feed">Feed-uri RSS</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/resurse/lista-discutii" class="wikilink1" title="so2:resurse:lista-discutii">Listă de discuții</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/resurse/masini-virtuale" class="wikilink1" title="so2:resurse:masini-virtuale">Mașini virtuale</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/resurse/sala-de-laborator" class="wikilink1" title="so2:resurse:sala-de-laborator">Sală de laborator</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/resurse/trimitere-teme" class="wikilink1" title="so2:resurse:trimitere-teme">Trimitere teme</a></div></li>
+</ul>
+</div>
+
+</div>
+<!-- EDIT13 SECTION "Resurse" [202-253] -->
+<h1 class="sectionedit14" id="laboratoare">Laboratoare</h1>
+<div class="level1">
+<script type="text/javascript" charset="utf-8">
+<!--//--><![CDATA[//><!--
+indexmenu_nojsqueue.push(new Array('indexmenu_16241592915130fce89dbd3',''));
+addInitEvent(function(){indexmenu_loadJs(DOKU_BASE+'lib/plugins/indexmenu/nojsindex.js');});
+//--><!]]>
+</script>
+
+<div id="nojs_indexmenu_16241592915130fce89dbd3" class="indexmenu_nojs">
+
+<ul class="idx">
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab01" class="indexmenu_idx_head">Laborator 1 - Introducere</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab02" class="indexmenu_idx_head">Laborator 2 - Module de kernel</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab03" class="indexmenu_idx_head">Laborator 3 - Kernel API</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab04" class="indexmenu_idx_head">Laborator 4 - Device drivere în Unix</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab05" class="indexmenu_idx_head">Laborator 5 - Device drivere în Windows</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab06" class="indexmenu_idx_head">Laborator 6 - Întreruperi</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab07" class="indexmenu_idx_head">Laborator 7 - Acțiuni amânabile</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab08" class="indexmenu_idx_head">Laborator 8 - Device drivere de tip bloc. Subsistemul de I/O.</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab09" class="indexmenu_idx_head">Laborator 9 - Drivere de sisteme de fișiere (Linux) partea 1</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab10" class="indexmenu_idx_head">Laborator 10 - Drivere de sisteme de fișiere (Linux) partea 2</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab11" class="indexmenu_idx_head">Laborator 11 - Networking</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab12" class="indexmenu_idx_head">Laborator 12 - Maparea memoriei</a></div></li>
+<li class="closed"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/quiz?idx=so2:laboratoare:quiz" class="indexmenu_idx">quiz</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/impartire-laborator" class="wikilink1" title="so2:laboratoare:impartire-laborator">Împărțire ore laborator</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/laboratoare/lab_compilare" class="wikilink1" title="so2:laboratoare:lab_compilare">Laborator Extra - Compilarea kernel-ului</a></div></li>
+</ul>
+</div>
+
+</div>
+<!-- EDIT14 SECTION "Laboratoare" [254-314] -->
+<h1 class="sectionedit15" id="cursuri">Cursuri</h1>
+<div class="level1">
+<script type="text/javascript" charset="utf-8">
+<!--//--><![CDATA[//><!--
+indexmenu_nojsqueue.push(new Array('indexmenu_8423247905130fce8a7804',''));
+addInitEvent(function(){indexmenu_loadJs(DOKU_BASE+'lib/plugins/indexmenu/nojsindex.js');});
+//--><!]]>
+</script>
+
+<div id="nojs_indexmenu_8423247905130fce8a7804" class="indexmenu_nojs">
+
+<ul class="idx">
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs01" class="indexmenu_idx_head">Cursul 1 - Introducere</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs01/test" class="wikilink1" title="so2:cursuri:curs01:test">Test Cursul 1</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs02" class="indexmenu_idx_head">Cursul 2 - Apeluri de sistem</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs02/test" class="wikilink1" title="so2:cursuri:curs02:test">Test Cursul 2</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs03" class="indexmenu_idx_head">Cursul 3 - Procese</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs03/test" class="wikilink1" title="so2:cursuri:curs03:test">Test Cursul 3</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs04" class="indexmenu_idx_head">Cursul 4 - Întreruperi</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs04/test" class="wikilink1" title="so2:cursuri:curs04:test">Test Cursul 4</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs05" class="indexmenu_idx_head">Cursul 5 - Sincronizare</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs05/test" class="wikilink1" title="so2:cursuri:curs05:test">Test Cursul 5</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs06" class="indexmenu_idx_head">Cursul 6 - Gestiunea memoriei</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs06/test" class="wikilink1" title="so2:cursuri:curs06:test">Test Cursul 6</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs07" class="indexmenu_idx_head">Cursul 7 - Gestiunea memoriei (2)</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs07/test" class="wikilink1" title="so2:cursuri:curs07:test">Test Cursul 7</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs08" class="indexmenu_idx_head">Cursul 8 - Gestiunea fisierelor</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs08/test" class="wikilink1" title="so2:cursuri:curs08:test">Test Cursul 8</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs09" class="indexmenu_idx_head">Cursul 9 - Gestiunea retelei</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs09/test" class="wikilink1" title="so2:cursuri:curs09:test">Test Cursul 9</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs10" class="indexmenu_idx_head">Cursul 10 - Linux kernel library</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs10/test" class="wikilink1" title="so2:cursuri:curs10:test">Test Cursul 10</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs11" class="wikilink1" title="so2:cursuri:curs11">Curs 11 - TODO</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs12" class="wikilink1" title="so2:cursuri:curs12">Cursul 12 - Kernel Debugging</a></div></li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/cursuri/curs_modelul_dezvoltare_linux" class="wikilink1" title="so2:cursuri:curs_modelul_dezvoltare_linux">Curs Extra - Modelul de dezvoltare Linux</a></div></li>
+</ul>
+</div>
+
+</div>
+<!-- EDIT15 SECTION "Cursuri" [315-367] -->
+<h1 class="sectionedit16" id="teme">Teme</h1>
+<div class="level1">
+<script type="text/javascript" charset="utf-8">
+<!--//--><![CDATA[//><!--
+indexmenu_nojsqueue.push(new Array('indexmenu_2508734115130fce8af9d0',''));
+addInitEvent(function(){indexmenu_loadJs(DOKU_BASE+'lib/plugins/indexmenu/nojsindex.js');});
+//--><!]]>
+</script>
+
+<div id="nojs_indexmenu_2508734115130fce8af9d0" class="indexmenu_nojs">
+
+<ul class="idx">
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/challenge" class="indexmenu_idx_head">Ixia Challenge - TBA</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/challenge/faq" class="wikilink1" title="so2:teme:challenge:faq">FAQ pentru Ixia Challenge</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare].html" class="indexmenu_idx_head">Tema 1 - Interceptare apeluri de sistem</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1/faq" class="wikilink1" title="so2:teme:tema1:faq">FAQ pentru Tema 1</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema2" class="indexmenu_idx_head">Tema 2 - Driver UART</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema2/faq" class="wikilink1" title="so2:teme:tema2:faq">FAQ pentru Tema 2</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema3" class="indexmenu_idx_head">Tema 3 - Software RAID</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema3/faq" class="wikilink1" title="so2:teme:tema3:faq">FAQ pentru Tema 3</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema4" class="indexmenu_idx_head">Tema 4 - Driver de sistem de fișiere</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema4/faq" class="wikilink1" title="so2:teme:tema4:faq">FAQ pentru Tema 4</a></div></li>
+</ul>
+</li>
+<li class="open"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema5" class="indexmenu_idx_head">Tema 5 - Stateful firewall</a></div>
+<ul class="idx">
+<li class="level2"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema5/faq" class="wikilink1" title="so2:teme:tema5:faq">FAQ pentru Tema 5</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="http://ocw.cs.pub.ro/courses/so2/teme/general" class="wikilink1" title="so2:teme:general">Indicații generale teme</a></div></li>
+</ul>
+</div>
+
+</div>
+<!-- EDIT16 SECTION "Teme" [368-] -->
+</div>
+        </div>
+      
+    
+      <div class="stylefoot">
+        <div class="meta">
+          <div class="user">
+                    </div>
+          <div class="doc">
+          so2/teme/tema1.txt · Last modified: 2013/02/24 12:13 by daniel.baluta          </div>
+        </div>
+      </div>
+
+    <div class="clearer"></div>
+
+    
+                <div class="bar" id="bar__bottom">
+      <div class="bar-left">
+        <a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1?do=revisions" class="action revs" accesskey="o" rel="nofollow" title="Old revisions [O]">Old revisions</a>      </div>
+      <div class="bar-right">
+        <a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1?do=media" class="action media" rel="nofollow" title="Media Manager">Media Manager</a><a href="http://ocw.cs.pub.ro/courses/so2/teme/tema1#dokuwiki__top" class="action top" accesskey="t" rel="nofollow" title="Back to top [T]">Back to top</a>      </div>
+    </div>
+    <div class="clearer"></div>
+            
+    <div align="center" class="footerinc">
+  <div class="license"><a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license"><img src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/cc-by-sa.png" alt="CC Attribution-Share Alike 3.0 Unported"></a></div>
+  <a target="_blank" href="http://www.chimeric.de/" title="www.chimeric.de"><img src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/button-chimeric-de.png" width="80" height="15" alt="www.chimeric.de" border="0"></a>
+
+  <a target="_blank" href="http://jigsaw.w3.org/css-validator/check/referer" title="Valid CSS"><img src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/button-css.png" width="80" height="15" alt="Valid CSS" border="0"></a>
+
+  <a target="_blank" href="http://wiki.splitbrain.org/wiki:dokuwiki" title="Driven by DokuWiki"><img src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/button-dw.png" width="80" height="15" alt="Driven by DokuWiki" border="0"></a>
+
+  <a target="_blank" href="http://www.firefox-browser.de/" title="do yourself a favour and use a real browser - get firefox"><img src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/button-firefox.png" width="80" height="15" alt="do yourself a favour and use a real browser - get firefox!!" border="0"></a>
+  
+  <a target="_blank" href="http://ocw.cs.pub.ro/courses/feed.php" title="Recent changes RSS feed"><img src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/button-rss.png" width="80" height="15" alt="Recent changes RSS feed" border="0"></a>
+
+  <a target="_blank" href="http://validator.w3.org/check/referer" title="Valid XHTML 1.0"><img src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/button-xhtml.png" width="80" height="15" alt="Valid XHTML 1.0" border="0"></a>
+</div>
+
+  </div>
+</div>
+
+<div class="no"><img src="./Tema 1 - Interceptare apeluri de sistem [CS Open CourseWare]_files/indexer.php" width="2" height="1" alt=""></div>
+
+
+</body></html>
